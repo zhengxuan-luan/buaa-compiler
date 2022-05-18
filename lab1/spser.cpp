@@ -40,10 +40,33 @@ int gettok(){   //返回TOKEN，再由TOKEN配合全局变量指导输出
   //static 不会每次都执行
   // Skip any whitespace.
 
+  //handle with coment
   while (isspace(LastChar)){
     LastChar = char_stream.get();
   }
-  
+  if(LastChar == '/'){
+    LastChar = char_stream.get();
+    if(LastChar == '/'){
+      do{
+        LastChar = char_stream.get();
+      }  while(LastChar != EOF && LastChar != '\n' && LastChar != '\r');
+      return gettok();
+    }
+    if(LastChar == '*'){
+      int flag = 0;
+      do{
+        LastChar = char_stream.get();
+        if(LastChar == '*'){
+          LastChar = char_stream.get();
+          if(LastChar == '/')
+            flag = 1;
+        }
+      }while(!flag);
+      return gettok();
+    }  
+    return '/';
+  }
+
   if(symbol.count(LastChar)){
     char c = LastChar;
     LastChar = char_stream.get();
