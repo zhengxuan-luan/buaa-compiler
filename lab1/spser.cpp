@@ -40,10 +40,11 @@ int gettok(){   //返回TOKEN，再由TOKEN配合全局变量指导输出
   //static 不会每次都执行
   // Skip any whitespace.
 
-  //handle with coment
   while (isspace(LastChar)){
     LastChar = char_stream.get();
   }
+
+  //handle with coment
   if(LastChar == '/'){
     LastChar = char_stream.get();
     if(LastChar == '/'){
@@ -58,12 +59,14 @@ int gettok(){   //返回TOKEN，再由TOKEN配合全局变量指导输出
         LastChar = char_stream.get();
         if(LastChar == '*'){
           LastChar = char_stream.get();
-          if(LastChar == '/')
+          if(LastChar == '/'){
             flag = 1;
+            LastChar = char_stream.get();
+          }
         }
       }while(!flag);
       return gettok();
-    }  
+    }
     return '/';
   }
 
